@@ -1,3 +1,5 @@
+.idea
+.git
 .python-version
 class_MobileDB.py
 dataclass_Mobile.py
