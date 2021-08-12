@@ -1,33 +1,32 @@
-from dataclasses import dataclass
-import uuid
-from datetime import date
+from configuration.config import db
+import datetime
 
-@dataclass
-class Smartphone:
-    mid: uuid
-    name: str
-    manufacturer: str
-    cost: float
-    series: str
-    camera_mp: int
-    battery_ah: int
-    operating_system: str
 
-@dataclass
-class Customer:
-    cid: str
-    customer_name: str
-    email: str
-    age: int
+class Smartphone(db.Document):
+    name = db.StringField(required=True, unique=True)
+    manufacturer = db.StringField(required=True)
+    cost = db.FloatField(required=True)
 
-@dataclass
+
+"""
+class SmartphoneFeatures(db.Document):
+    series = db.StringField(required=True)
+    camera_mp = db.IntField(required=True)
+    battery_ah = db.IntField(required=True)
+    operating_system = db.StringField(required=True)
+
+
+class Customer(db.Document):
+    _id = db.IntField(required=True, unique=True)
+    customer_name = db.StringField(required=True)
+    email = db.EmailField(required=True)
+    age = db.IntField(required=True)
+
+
 class Orders:
-    cid: str
-    mid: str
-    order_date: date
-    Email_sent: bool
-
-
-
-
+    _id = db.IntField(required=True, unique=True)
+    mid = db.UUIDField(required=True, unique=True)
+    order_date = db.DateTimeField(default=datetime.datetime.date)
+    Email_sent = db.BooleanField(default='NO')
+"""
 

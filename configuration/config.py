@@ -1,13 +1,7 @@
-from pymongo import MongoClient
-from pprint import pprint
-"""
-Consists of the configuration details to connect to the MongoDB database 
-"""
+from flask_mongoengine import MongoEngine
 
-MONGO_URL = "mongodb://sangavai:admin@127.0.0.1:27017/"
-client = MongoClient(MONGO_URL)
-db = client.Mobile_Store
-'''
-serverStatusResult = db.command("serverStatus")
-pprint(serverStatusResult)
-'''
+db = MongoEngine()
+
+
+def initialize_db(app):
+    db.init_app(app)
