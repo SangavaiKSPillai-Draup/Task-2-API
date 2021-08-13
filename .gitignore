@@ -2,5 +2,10 @@
 .git
 .python-version
 .gitignore
+Models/__pycache__/*
+configuration/__pycache__/*
+controllers/__pycache__/*
+Resources/__pycache__/*
+view/__pycache__/*
 class_MobileDB.py
 dataclass_Mobile.py
