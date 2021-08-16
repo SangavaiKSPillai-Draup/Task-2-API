@@ -2,6 +2,7 @@
 .git
 .python-version
 .gitignore
+.env
 Models/__pycache__/*
 Models/__pycache__
 configuration/__pycache__
