@@ -4,9 +4,13 @@ import uuid
 import ast
 from Models.model import Smartphone, Customer, Orders
 from flask import Response, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
+from flask_login import current_user
 from Models.CustomErrors import *
+from configuration.config import mail
+from flask_mail import Message
+# from flask_security import login_required, roles_required
 
 
 class SmartphoneApi(Resource):
@@ -110,6 +114,12 @@ class OrdersApi(Resource):
 
     @jwt_required()
     def post(self):
+        user_id = get_jwt_identity()
+        c_find = CustomersApi()
+        byte_str1 = c_find.get(user_id).get_data()
+        dict_str1 = byte_str1.decode("UTF-8")
+        c_data = ast.literal_eval(dict_str1)
+        email = c_data['email']
         c_update = SmartphonesApi()
         body = request.get_json()
         byte_str = c_update.get(body['mname']).get_data()
@@ -124,7 +134,11 @@ class OrdersApi(Resource):
             Smartphone.objects(name=order.mname).update(dec__Stock=1)
             mname1 = Smartphone.objects.get(name=order.mname).to_json()
             mname2 = json.loads(mname1)
+            str2 = "You have ordered: " + my_data['name']
+            msg = Message('order details', sender='***', recipients=['****'])
             # print(mname2)
+            msg.body = str2
+            mail.send(msg)
             return {'Mobile Name': mname2['name']}, 200
 
         except MobileNotFoundError:

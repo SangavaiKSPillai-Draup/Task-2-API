@@ -1,10 +1,19 @@
-import sys, random
-from configuration.config import db
 import datetime
-from uuid import uuid4
+import random
+import sys
+from configuration.config import db
 from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_login import current_user, UserMixin
+# from flask_security import Security, MongoEngineUserDatastore, RoleMixin
+from flask import current_app
+from uuid import uuid4
 
 MAX = 50000
+
+'''
+class Role(db.Document, RoleMixin):
+    r_name = db.StringField(required=True, unique=True)
+'''
 
 
 class Smartphone(db.Document):
@@ -18,13 +27,12 @@ class Smartphone(db.Document):
     operating_system = db.StringField()
 
 
-class Customer(db.Document):
+class Customer(db.Document, UserMixin):
     _id = db.StringField(default="C0" + str(random.randint(0, MAX)), primary_key=True)
     customer_name = db.StringField(required=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True, min_length=6)
     age = db.IntField(default=18)
-    # role = db.StringField(default='User')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
