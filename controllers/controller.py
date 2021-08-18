@@ -10,6 +10,7 @@ from flask_login import current_user
 from Models.CustomErrors import *
 from configuration.config import mail
 from flask_mail import Message
+from .role_decorator import roles_required
 # from flask_security import login_required, roles_required
 
 
@@ -19,6 +20,7 @@ class SmartphoneApi(Resource):
         return Response(phones, mimetype='application/json', status=200)
 
     @jwt_required()
+    @roles_required(['admin'])
     def post(self):
         print(request)
         body = request.get_json()
@@ -30,6 +32,7 @@ class SmartphoneApi(Resource):
 class SmartphonesApi(Resource):
 
     @jwt_required()
+    @roles_required(['admin'])
     def put(self, name):
         try:
             body = request.get_json()
@@ -40,6 +43,7 @@ class SmartphonesApi(Resource):
             return str1, 404
 
     @jwt_required()
+    @roles_required(['admin'])
     def delete(self, name):
         try:
             phone = Smartphone.objects.get(name=name).delete()
@@ -68,6 +72,7 @@ class CustomerApi(Resource):
         return Response(customers, mimetype='application/json', status=200)
 
     @jwt_required()
+    @roles_required(['admin'])
     def post(self):
         body = request.get_json()
         customer = Customer(**body).save()
@@ -89,12 +94,14 @@ class CustomersApi(Resource):
             return Response(str1, mimetype='application/json', status=404)
 
     @jwt_required()
+    @roles_required(['admin'])
     def put(self, id):
         body = request.get_json()
         Customer.objects.get(_id=id).update(**body)
         return '', 200
 
     @jwt_required()
+    @roles_required(['admin'])
     def delete(self, id):
         user = Customer.objects.get(_id=id).delete()
         return '', 200
@@ -113,13 +120,8 @@ class OrdersApi(Resource):
         return Response(orders, mimetype='application/json', status=200)
 
     @jwt_required()
+    @roles_required(['user'])
     def post(self):
-        user_id = get_jwt_identity()
-        c_find = CustomersApi()
-        byte_str1 = c_find.get(user_id).get_data()
-        dict_str1 = byte_str1.decode("UTF-8")
-        c_data = ast.literal_eval(dict_str1)
-        email = c_data['email']
         c_update = SmartphonesApi()
         body = request.get_json()
         byte_str = c_update.get(body['mname']).get_data()
@@ -135,7 +137,11 @@ class OrdersApi(Resource):
             mname1 = Smartphone.objects.get(name=order.mname).to_json()
             mname2 = json.loads(mname1)
             str2 = "You have ordered: " + my_data['name']
-            msg = Message('order details', sender='***', recipients=['****'])
+            user_id = get_jwt_identity()
+            user = Customer.objects.get(_id=user_id).to_json()
+            user1 = json.loads(user)
+            email = user1['email']
+            msg = Message('order details', sender='umadevipaiaz345@gmail.com', recipients=[email])
             # print(mname2)
             msg.body = str2
             mail.send(msg)

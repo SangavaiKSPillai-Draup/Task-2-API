@@ -23,14 +23,6 @@ app.config['MONGODB_SETTINGS'] = {
 }
 app.config.from_envvar('ENV_FILE_LOCATION')
 db = initialize_db(app)
-# user_datastore = MongoEngineUserDatastore(db, Customer, Role)
-# security = Security(app, user_datastore)
 initialize_routes(api)
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = '****'
-app.config['MAIL_PASSWORD'] = '****'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
 initialize_mail(app)
 app.run(debug=True)
