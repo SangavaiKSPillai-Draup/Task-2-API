@@ -17,7 +17,6 @@ To run the project:
 
 3. Install all the requirements present in requirements.txt by the command:
 
-    
     $ pip install -r requirements.txt
 
 4. Create a connection in mongodb, with a new database.
@@ -42,7 +41,6 @@ To run the project:
 7. In the post request under OrdersApi, modify the sender's email address. It should be the same as MAIL_USERNAME in the .env file. 
 The recipient should also be a valid email address.
 8. Execute the command:
-
 
     $ flask run
 
