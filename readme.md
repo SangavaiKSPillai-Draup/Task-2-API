@@ -17,7 +17,7 @@ To run the project:
 
 3. Install all the requirements present in requirements.txt by the command:
 
-    $ pip install -r requirements.txt
+       $ pip install -r requirements.txt
 
 4. Create a connection in mongodb, with a new database.
 5. Add three collections: Smartphone, Customer, Orders ; according to the schema given in Models/model.py. Populate them with documents.
@@ -36,13 +36,13 @@ To run the project:
    9. https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
    10. MONGODB_SETTINGS: This value should be set in the following format:
       
-       {'host':'your_mongodb_connection_string'}
+           {'host':'your_mongodb_connection_string'}
 
 7. In the post request under OrdersApi, modify the sender's email address. It should be the same as MAIL_USERNAME in the .env file. 
 The recipient should also be a valid email address.
 8. Execute the command:
 
-    $ flask run
+       $ flask run
 
 to run the application.
 9. To test these API endpoints, you'll need to make use of POSTMAN.
