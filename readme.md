@@ -18,6 +18,7 @@ To run the project:
 3. Install all the requirements present in requirements.txt by the command:
 
        $ pip install -r requirements.txt
+    The dependencies for these requirements can be found in dependencies.txt .
 
 4. Create a connection in mongodb, with a new database.
 5. Add three collections: Smartphone, Customer, Orders ; according to the schema given in Models/model.py. Populate them with documents.
@@ -32,9 +33,10 @@ To run the project:
       
      Ensure that the gmail id used does not have two - step verification enabled.
      You'll have to configure the account to allow access from less secure apps. Refer these links in case of any hiccups with email:
-   8. https://stackoverflow.com/questions/18881929/flask-mail-gmail-connection-refused 
-   9. https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
-   10. MONGODB_SETTINGS: This value should be set in the following format:
+   
+      https://stackoverflow.com/questions/18881929/flask-mail-gmail-connection-refused 
+      https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
+   8.MONGODB_SETTINGS: This value should be set in the following format:
       
            {'host':'your_mongodb_connection_string'}
 

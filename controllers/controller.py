@@ -17,6 +17,7 @@ from flask_restful import Resource
 from Models.CustomErrors import *
 from configuration.config import mail
 from flask_mail import Message
+from flask import current_app
 from controllers.role_decorator import roles_required
 
 
@@ -174,8 +175,7 @@ class OrdersApi(Resource):
             user = Customer.objects.get(_id=user_id).to_json()
             user1 = json.loads(user)
             email = user1['email']
-            msg = Message('order details', sender='umadevipaiaz345@gmail.com', recipients=[email])
-            # print(mname2)
+            msg = Message('order details', sender=current_app.config.get('MAIL_USERNAME'), recipients=[email])
             msg.body = str2
             mail.send(msg)
             return {'Mobile Name': mname2['name']}, 200
