@@ -36,9 +36,10 @@ To run the project:
    
       https://stackoverflow.com/questions/18881929/flask-mail-gmail-connection-refused 
       https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
-   8.MONGODB_SETTINGS: This value should be set in the following format:
+
+   8. MONGODB_SETTINGS: This value should be set in the following format:
       
-           {'host':'your_mongodb_connection_string'}
+              {'host':'your_mongodb_connection_string'}
 
 7. In the post request under OrdersApi, modify the sender's email address. It should be the same as MAIL_USERNAME in the .env file. 
 The recipient should also be a valid email address.
@@ -47,7 +48,9 @@ The recipient should also be a valid email address.
        $ flask run
 
 to run the application.
+
 9. To test these API endpoints, you'll need to make use of POSTMAN.
+
 10. While giving a post request, in POSTMAN, ensure you do the following:
     1. Go to the Authorization tab.
     2. Select Auth type as Bearer token.
