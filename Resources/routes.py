@@ -1,8 +1,15 @@
+"""
+    Contains code to initialize API endpoints
+"""
+
 from controllers.controller import SmartphoneApi, CustomerApi, SmartphonesApi, CustomersApi, OrdersApi
 from Resources.auth import SignupApi, LoginApi
 
 
 def initialize_routes(api):
+    """
+        Initializes all API endpoints used in the application
+    """
     api.add_resource(SmartphoneApi, '/smartphones')
     api.add_resource(SmartphonesApi, '/smartphones/<name>')
     api.add_resource(CustomerApi, '/customers')

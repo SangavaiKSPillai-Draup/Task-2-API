@@ -5,6 +5,11 @@ import json
 
 
 def roles_required(roles):
+    """
+        This decorator evaluates the role of a user. It takes a list of accepted roles as argument.
+        If the user does not belong to any of these roles,
+        the decorator does not allow the user to perform the action.
+    """
     def decorator_role(f):
         @wraps(f)
         def wrapper_role(*args, **kwargs):

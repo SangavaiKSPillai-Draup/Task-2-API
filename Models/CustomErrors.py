@@ -1,6 +1,14 @@
 class MobileNotFoundError(Exception):
-    pass
+    """
+        Exception raised if a mobile is not found in database.
+    """
+    def __init__(self, msg):
+        self.msg = msg
 
 
 class CustomerNotFoundError(Exception):
-    pass
+    """
+        Exception raised if a customer is not found in database.
+    """
+    def __init__(self, msg):
+        self.msg = msg

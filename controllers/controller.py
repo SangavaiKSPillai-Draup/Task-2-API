@@ -1,20 +1,31 @@
+"""
+    This file contains the code that interacts with the database.
+    It handles CRUD operations.
+
+    There are two decorators used here.
+    @jwt_required() - This decorator is used to check if a Token (Bearer token) is present in the Authorisation Header
+    of an HTTP request
+    @roles_required() - This checks for the role of a particular user logged in to the application.
+"""
 import datetime
 import json
-import uuid
 import ast
 from Models.model import Smartphone, Customer, Orders
 from flask import Response, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
-from flask_login import current_user
 from Models.CustomErrors import *
 from configuration.config import mail
 from flask_mail import Message
-from .role_decorator import roles_required
-# from flask_security import login_required, roles_required
+from controllers.role_decorator import roles_required
 
 
 class SmartphoneApi(Resource):
+    """
+    Retrieving details of all mobiles, and adding a new mobile to the database\n
+    GET - to retrieve all smartphones in the database\n
+    POST - to add a new smartphone to the database\n
+    """
     def get(self):
         phones = Smartphone.objects.to_json()
         return Response(phones, mimetype='application/json', status=200)
@@ -30,7 +41,12 @@ class SmartphoneApi(Resource):
 
 
 class SmartphonesApi(Resource):
-
+    """
+        Retrieving/Updating details of a particular mobile. \n
+        GET - Retrieve a particular smartphone's details by passing name as parameter\n
+        PUT/UPDATE - Update the details of a particular phone by passing name as argument\n
+        DELETE - Remove a particular phone from the database, by passing the phone's name as argument\n
+    """
     @jwt_required()
     @roles_required(['admin'])
     def put(self, name):
@@ -53,8 +69,6 @@ class SmartphonesApi(Resource):
             return str1, 404
 
     def get(self, name):
-        # id = uuid.UUID(id)
-        # print(id)
         try:
             phones = Smartphone.objects.get(name=name).to_json()
             if phones == "":
@@ -66,7 +80,13 @@ class SmartphonesApi(Resource):
 
 
 class CustomerApi(Resource):
-
+    """
+        Retrieving details of all customers, and adding a new customer to the database.
+        GET - Get all details of customers registered.
+        POST - Add details of a new customer
+    """
+    @jwt_required()
+    @roles_required(['admin'])
     def get(self):
         customers = Customer.objects.to_json()
         return Response(customers, mimetype='application/json', status=200)
@@ -80,7 +100,15 @@ class CustomerApi(Resource):
 
 
 class CustomersApi(Resource):
+    """
+        Retrieving details of a particular customer, as well as updating a customer's details, and/or deleting a customer.
+        GET - Retrieve details of a particular customer, by passing Customer ID as argument
+        PUT - Update details of a particular customer, by passing Customer ID as argument
+        DELETE - Remove a customer from the database, by passing Customer ID as argument
+    """
 
+    @jwt_required()
+    @roles_required(['admin'])
     def get(self, id):
         try:
             customers = Customer.objects.get(_id=id).to_json()
@@ -108,6 +136,11 @@ class CustomersApi(Resource):
 
 
 class OrdersApi(Resource):
+    """
+        Retrieve order details, as well as placing a new order by customer.
+        GET - get all orders taken in the database
+        POST - customer orders a new mobile
+    """
     def get(self):
         orders = Orders.objects.to_json()
         # print(type(orders))
